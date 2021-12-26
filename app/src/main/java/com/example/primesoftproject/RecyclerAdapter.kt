@@ -10,11 +10,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.primesoftproject.model.Item
+import com.example.primesoftproject.model.JsonMainCreated
 
 class RecyclerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>() {
 
-    var itemList : List<Item> = listOf()
+    var itemList : List<JsonMainCreated> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
@@ -28,14 +28,18 @@ class RecyclerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerAdapt
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        holder.tvMovieName.text = itemList.get(position).name
+        /*holder.tvMovieName.text = itemList.get(position).name
         Glide.with(context).load(itemList.get(position).iconUrl)
                 .apply(RequestOptions().centerCrop())
-                .into(holder.image)
+                .into(holder.image)*/
+        holder.tvMovieName.text = itemList.get(position).result.data.items.get(position).name
+        Glide.with(context).load(itemList.get(position).result.data.items.get(position).iconUrl)
+            .apply(RequestOptions().centerCrop())
+            .into(holder.image)
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun setMovieListItems(itemList: List<Item>){
+    @SuppressLint("NotifyDataSetChanged")  //??
+    fun setMovieListItems(itemList: List<JsonMainCreated>){
         this.itemList = itemList;
         notifyDataSetChanged()
     }

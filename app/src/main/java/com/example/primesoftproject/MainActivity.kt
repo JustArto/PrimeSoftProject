@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.primesoftproject.model.Data
-import com.example.primesoftproject.model.Item
 import com.example.primesoftproject.model.JsonMainCreated
 import retrofit2.Call
 import retrofit2.Callback
@@ -29,17 +27,17 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = recyclerAdapter
 
 
-        val apiInterface = ApiInterface.create().getBrandData()
+        val apiInterface = ApiInterface.create().getBrandData("en")
 
-        apiInterface.enqueue( object : Callback<List<Item>> {
-            override fun onResponse(call: Call<List<Item>>?, response: Response<List<Item>>?) {
+        apiInterface.enqueue( object : Callback<JsonMainCreated> {
+            override fun onResponse(call: Call<JsonMainCreated>?, response: Response<JsonMainCreated>?) {
                 Log.d("TAGG", "Success")
-                if(response?.body() != null)
-                    recyclerAdapter.setMovieListItems(response.body()!!)
-                Log.d("TAGG", "Success but null?! "+response!!.body().toString())
+                if(response!!.body() != null)
+                    recyclerAdapter.setMovieListItems(listOf(response.body()!!))
+                Log.d("TAGG", "Success but null?! "+response.body().toString())
             }
 
-            override fun onFailure(call: Call<List<Item>>?, t: Throwable?) {
+            override fun onFailure(call: Call<JsonMainCreated>?, t: Throwable?) {
             Log.d("TAGG", "Failure "+t.toString())
             }
         })
