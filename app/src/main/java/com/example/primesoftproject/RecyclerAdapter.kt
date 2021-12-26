@@ -1,5 +1,6 @@
 package com.example.primesoftproject
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +10,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.primesoftproject.model.Item
 
 class RecyclerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>() {
 
-    var memeList : List<Meme> = listOf()
+    var itemList : List<Item> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
@@ -21,19 +23,20 @@ class RecyclerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerAdapt
     }
 
     override fun getItemCount(): Int {
-        return memeList.size
+        return itemList.size
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        holder.tvMovieName.text = memeList.get(position).title
-        Glide.with(context).load(memeList.get(position).image)
+        holder.tvMovieName.text = itemList.get(position).name
+        Glide.with(context).load(itemList.get(position).iconUrl)
                 .apply(RequestOptions().centerCrop())
                 .into(holder.image)
     }
 
-    fun setMovieListItems(memeList: List<Meme>){
-        this.memeList = memeList;
+    @SuppressLint("NotifyDataSetChanged")
+    fun setMovieListItems(itemList: List<Item>){
+        this.itemList = itemList;
         notifyDataSetChanged()
     }
 
