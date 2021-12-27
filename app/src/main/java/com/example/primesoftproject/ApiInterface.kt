@@ -1,7 +1,5 @@
 package com.example.primesoftproject
 
-import com.example.primesoftproject.model.Data
-import com.example.primesoftproject.model.Item
 import com.example.primesoftproject.model.JsonMainCreated
 import retrofit2.Call
 import retrofit2.Retrofit

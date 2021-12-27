@@ -14,7 +14,7 @@ import com.example.primesoftproject.model.JsonMainCreated
 
 class RecyclerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>() {
 
-    var itemList : List<JsonMainCreated> = listOf()
+    var itemBrandList : List<JsonMainCreated> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
@@ -23,24 +23,20 @@ class RecyclerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerAdapt
     }
 
     override fun getItemCount(): Int {
-        return itemList.size
+        return itemBrandList.size
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        /*holder.tvMovieName.text = itemList.get(position).name
-        Glide.with(context).load(itemList.get(position).iconUrl)
-                .apply(RequestOptions().centerCrop())
-                .into(holder.image)*/
-        holder.tvMovieName.text = itemList.get(position).result.data.items.get(position).name
-        Glide.with(context).load(itemList.get(position).result.data.items.get(position).iconUrl)
+        holder.tvMovieName.text = itemBrandList.get(position).result.data.items.get(position).name
+        Glide.with(context).load(itemBrandList.get(position).result.data.items.get(position).iconUrl)
             .apply(RequestOptions().centerCrop())
             .into(holder.image)
     }
 
-    @SuppressLint("NotifyDataSetChanged")  //??
+    @SuppressLint("NotifyDataSetChanged")
     fun setMovieListItems(itemList: List<JsonMainCreated>){
-        this.itemList = itemList;
+        this.itemBrandList = itemList;
         notifyDataSetChanged()
     }
 
