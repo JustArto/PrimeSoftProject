@@ -2,9 +2,11 @@ package com.example.primesoftproject
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -12,7 +14,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.primesoftproject.model.JsonMainCreated
 
-class RecyclerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>() {
+class RecyclerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>(){
 
     var itemBrandList : List<JsonMainCreated> = listOf()
 
@@ -23,6 +25,7 @@ class RecyclerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerAdapt
     }
 
     override fun getItemCount(): Int {
+        Log.d("TAGG", "size "+itemBrandList.size)
         return itemBrandList.size
     }
 
@@ -36,7 +39,7 @@ class RecyclerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerAdapt
 
     @SuppressLint("NotifyDataSetChanged")
     fun setMovieListItems(itemList: List<JsonMainCreated>){
-        this.itemBrandList = itemList;
+        this.itemBrandList = itemList
         notifyDataSetChanged()
     }
 
@@ -44,4 +47,8 @@ class RecyclerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerAdapt
         val tvMovieName: TextView = itemView!!.findViewById(R.id.title)
         val image: ImageView = itemView!!.findViewById(R.id.image)
     }
+
+
+
+
 }

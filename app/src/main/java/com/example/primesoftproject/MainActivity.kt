@@ -3,8 +3,11 @@ package com.example.primesoftproject
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.primesoftproject.model.Item
 import com.example.primesoftproject.model.JsonMainCreated
 import retrofit2.Call
 import retrofit2.Callback
@@ -27,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = recyclerAdapter
 
 
+
         val apiInterface = ApiInterface.create().getBrandData("en")
 
         apiInterface.enqueue( object : Callback<JsonMainCreated> {
@@ -41,5 +45,24 @@ class MainActivity : AppCompatActivity() {
             Log.d("TAGG", "Failure "+t.toString())
             }
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu,menu)
+        val item = menu?.findItem(R.id.menu_search)
+        val searchView = item?.actionView as androidx.appcompat.widget.SearchView
+        searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener{
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                TODO("Not yet implemented")
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+
+                return false
+            }
+
+        })
+        return super.onCreateOptionsMenu(menu)
     }
 }
