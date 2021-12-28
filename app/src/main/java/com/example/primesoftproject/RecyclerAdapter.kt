@@ -6,17 +6,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.primesoftproject.model.JsonMainCreated
+import com.example.primesoftproject.model.Brand
+import com.example.primesoftproject.model.Item
 
 class RecyclerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>(){
 
-    var itemBrandList : List<JsonMainCreated> = listOf()
+    var itemBrandList: MutableList<Item> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
@@ -31,24 +31,25 @@ class RecyclerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerAdapt
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        holder.tvMovieName.text = itemBrandList.get(position).result.data.items.get(position).name
-        Glide.with(context).load(itemBrandList.get(position).result.data.items.get(position).iconUrl)
+        val currentItem = itemBrandList[position]
+
+        holder.tvMovieName.text = currentItem.name
+        Glide.with(context).load(currentItem.iconUrl)
             .apply(RequestOptions().centerCrop())
             .into(holder.image)
     }
 
+
     @SuppressLint("NotifyDataSetChanged")
-    fun setMovieListItems(itemList: List<JsonMainCreated>){
-        this.itemBrandList = itemList
+    fun setMovieListItems(itemList: List<Item>) {
+        itemBrandList.clear()
+        itemBrandList.addAll(itemList)
         notifyDataSetChanged()
     }
+
 
     class MyViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
         val tvMovieName: TextView = itemView!!.findViewById(R.id.title)
         val image: ImageView = itemView!!.findViewById(R.id.image)
     }
-
-
-
-
 }

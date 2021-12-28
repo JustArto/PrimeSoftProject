@@ -4,10 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
-import android.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.primesoftproject.model.Item
 import com.example.primesoftproject.model.JsonMainCreated
 import retrofit2.Call
 import retrofit2.Callback
@@ -36,15 +34,16 @@ class MainActivity : AppCompatActivity() {
         apiInterface.enqueue( object : Callback<JsonMainCreated> {
             override fun onResponse(call: Call<JsonMainCreated>?, response: Response<JsonMainCreated>?) {
                 Log.d("TAGG", "Success")
-                if(response!!.body() != null)
-                    recyclerAdapter.setMovieListItems(listOf(response.body()!!))
-                Log.d("TAGG", "Success but null?! "+response.body().toString())
+                if(response?.body() != null)
+                    recyclerAdapter.setMovieListItems(response.body()?.result?.data?.items!!)
+                Log.d("TAGG", "Success but null?! "+response?.body().toString())
             }
 
             override fun onFailure(call: Call<JsonMainCreated>?, t: Throwable?) {
-            Log.d("TAGG", "Failure "+t.toString())
+                Log.d("TAGG", "Failure "+t.toString())
             }
         })
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
