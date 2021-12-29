@@ -2,6 +2,7 @@ package com.example.primesoftproject
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,12 +12,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.primesoftproject.model.Brand
 import com.example.primesoftproject.model.Item
 
 class RecyclerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>(){
 
-    var itemBrandList: MutableList<Item> = mutableListOf()
+    var brandItemsList: MutableList<Item> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
@@ -25,25 +25,31 @@ class RecyclerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerAdapt
     }
 
     override fun getItemCount(): Int {
-        Log.d("TAGG", "size "+itemBrandList.size)
-        return itemBrandList.size
+        Log.d("TAGG", "size "+brandItemsList.size)
+        return brandItemsList.size
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        val currentItem = itemBrandList[position]
+        val currentItem = brandItemsList[position]
 
         holder.tvMovieName.text = currentItem.name
         Glide.with(context).load(currentItem.iconUrl)
             .apply(RequestOptions().centerCrop())
             .into(holder.image)
+
+        holder.itemView.setOnClickListener {
+            val intent = Intent(holder.itemView.context, ItemsDataInfo::class.java)
+            intent.putExtra("DataDesc", "${brandItemsList[position].description}")
+            intent.putExtra("DataImage", "${brandItemsList[position].iconUrl}")
+            holder.itemView.context.startActivity(intent)
+        }
     }
 
-
     @SuppressLint("NotifyDataSetChanged")
-    fun setMovieListItems(itemList: List<Item>) {
-        itemBrandList.clear()
-        itemBrandList.addAll(itemList)
+    fun setListItemsForRecyclerAdapter(itemList: List<Item>) {
+        brandItemsList.clear()
+        brandItemsList.addAll(itemList)
         notifyDataSetChanged()
     }
 

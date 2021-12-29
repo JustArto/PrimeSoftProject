@@ -6,27 +6,32 @@
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="370dp"
+        android:layout_marginTop="4dp"
         android:background="@color/white"
         android:foregroundGravity="center"
-        android:padding="15dp"
+        android:padding="5dp"
+        android:layout_marginRight="5dp"
+        app:shapeAppearanceOverlay="@style/RoundCorner"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp" />
 
     <TextView
         android:id="@+id/title"
+        android:fontFamily="@font/my_font"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="340dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:textColor="#CD0000"
-        android:textSize="10sp"
+        android:layout_marginTop="312dp"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        android:textColor="#00B7FF"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

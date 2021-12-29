@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call<JsonMainCreated>?, response: Response<JsonMainCreated>?) {
                 Log.d("TAGG", "Success")
                 if(response?.body() != null)
-                    recyclerAdapter.setMovieListItems(response.body()?.result?.data?.items!!)
+                    recyclerAdapter.setListItemsForRecyclerAdapter(response.body()?.result?.data?.items!!)
                 Log.d("TAGG", "Success but null?! "+response?.body().toString())
             }
 
@@ -60,7 +60,6 @@ class MainActivity : AppCompatActivity() {
 
                 return false
             }
-
         })
         return super.onCreateOptionsMenu(menu)
     }
