@@ -27,7 +27,7 @@
         android:layout_marginTop="312dp"
         android:paddingLeft="7dp"
         android:paddingRight="7dp"
-        android:textColor="#00B7FF"
+        android:textColor="#CD0000"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
