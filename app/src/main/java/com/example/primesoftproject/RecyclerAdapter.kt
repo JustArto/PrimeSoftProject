@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -40,10 +41,17 @@ class RecyclerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerAdapt
 
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, ItemsDataInfo::class.java)
+            intent.putExtra("DataName", "${brandItemsList[position].name}")
+            intent.putExtra("DataPrice", "${brandItemsList[position].price}")
             intent.putExtra("DataDesc", "${brandItemsList[position].description}")
             intent.putExtra("DataImage", "${brandItemsList[position].iconUrl}")
             holder.itemView.context.startActivity(intent)
         }
+     /*   holder.itemView.setOnClickListener {
+            val intent = Intent(holder.itemView.context,MainActivity::class.java)
+            intent.putExtra("DataList","${brandItemsList[position].name}")
+            holder.itemView.context.startActivity(intent)
+        }*/
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -57,5 +65,6 @@ class RecyclerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerAdapt
     class MyViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
         val tvMovieName: TextView = itemView!!.findViewById(R.id.title)
         val image: ImageView = itemView!!.findViewById(R.id.image)
+
     }
 }

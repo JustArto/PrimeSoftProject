@@ -13,8 +13,8 @@
         android:layout_marginTop="4dp"
         android:background="@color/white"
         android:foregroundGravity="center"
-        android:padding="5dp"
-        android:layout_marginRight="5dp"
+        android:padding="7dp"
+        android:layout_marginRight="7dp"
         app:shapeAppearanceOverlay="@style/RoundCorner"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp" />
