@@ -28,6 +28,7 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
 
     lateinit var data: MutableList<Item>
+    lateinit var changedData: MutableList<Item>
     lateinit var bottomNavigationView:BottomNavigationView
     lateinit var recyclerView: RecyclerView
     lateinit var recyclerAdapter: RecyclerAdapter
@@ -43,12 +44,14 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = recyclerAdapter
 
-    /*    val addFragment = AddFragment()
+   /*     val addFragment = AddFragment()
 
         bottomNavigationView.setOnNavigationItemSelectedListener {
             when(it.itemId){
-                R.id.menu_list_button->
-                R.id.menu_brand_button->// val intent = Intent(applicationContext,BrandsActivity::class.java)
+                R.id.menu_list_button->val intent = Intent(this@MainActivity,BrandsActivity::class.java)
+                startActivity(intent)
+
+                R.id.menu_brand_button-> val intent = Intent(this@MainActivity,BrandsActivity::class.java)
             }
             true
         }
@@ -72,14 +75,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
-  /*  private fun filter(text: String) {
-        val intMsg = mutableListOf(intent.getStringExtra("DataList"))
-       val filtredList: MutableList<String?> = intMsg
-        for (str in filtredList)
-            if (str!!.toLowerCase().contains(filtredList).toLowerCase())
-    }*/
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu,menu)
         val item = menu?.findItem(R.id.menu_search)
@@ -91,18 +86,20 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                //data.clear()
+                changedData = data
+                data.clear()
                 val searchText = newText!!.toLowerCase(Locale.getDefault())
                 if (searchText.isNotEmpty()){
-                    data.forEach {
+                    changedData.forEach {
                         if (it.name.toLowerCase(Locale.getDefault()).contains(searchText)){
                             data.add(it)
+                            recyclerAdapter.setListItemsForRecyclerAdapter(data)
                         }
                     }
                     recyclerView.adapter!!.notifyDataSetChanged()
                 }else{
                     data.clear()
-                    data.addAll(data)
+                    data.addAll(changedData)
                     recyclerView.adapter!!.notifyDataSetChanged()
                 }
                 return false
