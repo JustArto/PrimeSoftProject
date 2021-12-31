@@ -1,25 +1,38 @@
 package com.example.primesoftproject
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.Menu
+import android.widget.Button
 import android.widget.EditText
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.primesoftproject.data.BrandItemViewModel
+import com.example.primesoftproject.fragments.add.AddFragment
 import com.example.primesoftproject.model.Item
 import com.example.primesoftproject.model.JsonMainCreated
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
+    lateinit var data: MutableList<Item>
+    lateinit var bottomNavigationView:BottomNavigationView
     lateinit var recyclerView: RecyclerView
     lateinit var recyclerAdapter: RecyclerAdapter
-    //lateinit var edText: EditText
+    lateinit var button: Button
+    //lateinit var brandItemViewModel: BrandItemViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,23 +43,16 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = recyclerAdapter
 
-        /*edText = findViewById(R.id.ed_text)
-        edText.addTextChangedListener(object : TextWatcher{
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                TODO("Not yet implemented")
+    /*    val addFragment = AddFragment()
+
+        bottomNavigationView.setOnNavigationItemSelectedListener {
+            when(it.itemId){
+                R.id.menu_list_button->
+                R.id.menu_brand_button->// val intent = Intent(applicationContext,BrandsActivity::class.java)
             }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                TODO("Not yet implemented")
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-                filter(p0.toString())
-            }
-
-        })*/
-
-
+            true
+        }
+*/
 
         val apiInterface = ApiInterface.create().getBrandData("en")
 
@@ -54,7 +60,8 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call<JsonMainCreated>?, response: Response<JsonMainCreated>?) {
                 Log.d("TAGG", "Success")
                 if(response?.body() != null)
-                    recyclerAdapter.setListItemsForRecyclerAdapter(response.body()?.result?.data?.items!!)
+                    data = response.body()?.result?.data?.items as MutableList<Item>
+                    recyclerAdapter.setListItemsForRecyclerAdapter(data)
                 Log.d("TAGG", "Success but null?! "+response?.body().toString())
             }
 
@@ -65,17 +72,13 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
   /*  private fun filter(text: String) {
         val intMsg = mutableListOf(intent.getStringExtra("DataList"))
        val filtredList: MutableList<String?> = intMsg
         for (str in filtredList)
             if (str!!.toLowerCase().contains(filtredList).toLowerCase())
-
-
-
     }*/
-
-    //Bottom Menu click u @nde Taza Main Class u taza recyclerAdapter Branderi hamar...
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu,menu)
@@ -88,7 +91,20 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-
+                //data.clear()
+                val searchText = newText!!.toLowerCase(Locale.getDefault())
+                if (searchText.isNotEmpty()){
+                    data.forEach {
+                        if (it.name.toLowerCase(Locale.getDefault()).contains(searchText)){
+                            data.add(it)
+                        }
+                    }
+                    recyclerView.adapter!!.notifyDataSetChanged()
+                }else{
+                    data.clear()
+                    data.addAll(data)
+                    recyclerView.adapter!!.notifyDataSetChanged()
+                }
                 return false
             }
         })

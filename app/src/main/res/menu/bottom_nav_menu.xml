@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_list_button"
+        android:title="@string/list"
+        android:icon="@drawable/ic_car"
+        android:iconTint="@color/white" />
+
+    <item
+        android:id="@+id/menu_brand_button"
+        android:title="@string/brand"
+        android:icon="@drawable/ic_car"
+        android:iconTint="@color/white" />
+</menu>

@@ -13,11 +13,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.primesoftproject.model.Brand
 import com.example.primesoftproject.model.Item
 
-class RecyclerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>(){
+class RecyclerAdapterBrands(val context: Context) : RecyclerView.Adapter<RecyclerAdapterBrands.MyViewHolder>(){
 
-    var brandItemsList: MutableList<Item> = mutableListOf()
+    var brandItemsList: MutableList<Brand> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
@@ -39,23 +40,10 @@ class RecyclerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerAdapt
             .apply(RequestOptions().centerCrop())
             .into(holder.image)
 
-        holder.itemView.setOnClickListener {
-            val intent = Intent(holder.itemView.context, ItemsDataInfo::class.java)
-            intent.putExtra("DataName", "${brandItemsList[position].name}")
-            intent.putExtra("DataPrice", "${brandItemsList[position].price}")
-            intent.putExtra("DataDesc", "${brandItemsList[position].description}")
-            intent.putExtra("DataImage", "${brandItemsList[position].iconUrl}")
-            holder.itemView.context.startActivity(intent)
-        }
-     /*   holder.itemView.setOnClickListener {
-            val intent = Intent(holder.itemView.context,MainActivity::class.java)
-            intent.putExtra("DataList","${brandItemsList[position].name}")
-            holder.itemView.context.startActivity(intent)
-        }*/
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setListItemsForRecyclerAdapter(itemList: List<Item>) {
+    fun setListItemsForRecyclerAdapter(itemList: List<Brand>) {
         brandItemsList.clear()
         brandItemsList.addAll(itemList)
         notifyDataSetChanged()
