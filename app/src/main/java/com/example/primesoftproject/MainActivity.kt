@@ -3,22 +3,11 @@ package com.example.primesoftproject
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.Menu
-import android.widget.Button
-import android.widget.EditText
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.primesoftproject.data.BrandItemViewModel
-import com.example.primesoftproject.fragments.add.AddFragment
-import com.example.primesoftproject.model.Item
 import com.example.primesoftproject.model.JsonMainCreated
-import com.google.android.material.bottomnavigation.BottomNavigationItemView
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import retrofit2.Call
 import retrofit2.Callback
@@ -28,8 +17,8 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
 
 
-    val bottomNav: BottomNavigationView by lazy { findViewById(R.id.bottomNavigationView) }
-    val recyclerView: RecyclerView by lazy { findViewById(R.id.recyclerview) }
+    private val bottomNav: BottomNavigationView by lazy { findViewById(R.id.bottomNavigationView) }
+    private val recyclerView: RecyclerView by lazy { findViewById(R.id.recyclerview) }
     lateinit var recyclerAdapter: RecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,17 +39,14 @@ class MainActivity : AppCompatActivity() {
             }
             return@setOnNavigationItemSelectedListener true
         }
-        loadBrands()
+        loadBrandsItem()
     }
 
-    private fun loadBrands() {
+    private fun loadBrandsItem() {
         val apiInterface = ApiInterface.create().getBrandData("en")
 
         apiInterface.enqueue(object : Callback<JsonMainCreated> {
-            override fun onResponse(
-                call: Call<JsonMainCreated>?,
-                response: Response<JsonMainCreated>?
-            ) {
+            override fun onResponse(call: Call<JsonMainCreated>?, response: Response<JsonMainCreated>?) {
                 Log.d(TAG, "Success")
                 if (response?.body() != null) {
                     val data = response.body()?.result?.data?.items?.toMutableList()!!

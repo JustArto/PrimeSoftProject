@@ -14,36 +14,37 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class BrandsActivity : AppCompatActivity() {
-    lateinit var data: MutableList<Brand>
-    lateinit var recyclerView: RecyclerView
-    lateinit var recyclerAdapter: RecyclerAdapterBrands
 
+    val recyclerView: RecyclerView by lazy { findViewById(R.id.recyclerviewbrands) }
+    lateinit var recyclerAdapterBrands: RecyclerAdapterBrands
     //lateinit var brandItemViewModel: BrandItemViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_brand)
 
-        recyclerView = findViewById(R.id.recyclerview)
-        recyclerAdapter = RecyclerAdapterBrands(this)
+        recyclerAdapterBrands = RecyclerAdapterBrands(this)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = recyclerAdapter
+        recyclerView.adapter = recyclerAdapterBrands
 
+
+        getBrands()
     }
 
     private fun getBrands() {
         val apiInterface = ApiInterface.create().getBrandData("en")
-        apiInterface.enqueue( object : Callback<JsonMainCreated> {
+        apiInterface.enqueue(object : Callback<JsonMainCreated> {
             override fun onResponse(call: Call<JsonMainCreated>?, response: Response<JsonMainCreated>?) {
                 Log.d("TAGG", "Success")
-                if(response?.body() != null)
-                    data = response.body()?.result?.data?.brands as MutableList<Brand>
-                recyclerAdapter.setListItemsForRecyclerAdapter(data)
-                Log.d("TAGG", "Success but null?! "+response?.body().toString())
+                if (response?.body() != null) {
+                    val data = response.body()?.result?.data?.brands?.toMutableList()!!
+                    recyclerAdapterBrands.setListItemsForRecyclerAdapter(data)
+                }
+                Log.d("TAGG", "Success but null?! " + response?.body().toString())
             }
 
             override fun onFailure(call: Call<JsonMainCreated>?, t: Throwable?) {
-                Log.d("TAGG", "Failure "+t.toString())
+                Log.d("TAGG", "Failure " + t.toString())
             }
         })
     }

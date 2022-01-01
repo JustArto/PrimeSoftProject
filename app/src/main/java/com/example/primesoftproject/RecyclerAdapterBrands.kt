@@ -39,7 +39,6 @@ class RecyclerAdapterBrands(val context: Context) : RecyclerView.Adapter<Recycle
         Glide.with(holder.itemView.context).load(currentItem.iconUrl)
             .apply(RequestOptions().centerCrop())
             .into(holder.image)
-
     }
 
     @SuppressLint("NotifyDataSetChanged")
