@@ -30,7 +30,7 @@ class ItemsDataInfo : AppCompatActivity() {
         textName.text ="Name: "+name
 
         val price = intent.getStringExtra("DataPrice")
-        textPrice.text ="Price: "+price
+        textPrice.text = "Price: "+price
 
         val desc = intent.getStringExtra("DataDesc")
         textDesc.text ="Desc: "+desc

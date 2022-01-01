@@ -44,7 +44,7 @@ class RecyclerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerAdapt
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, ItemsDataInfo::class.java).apply {
                 putExtra("DataName", brandItemsList[position].name)
-                putExtra("DataPrice", brandItemsList[position].price)
+                putExtra("DataPrice", brandItemsList[position].price.toString())
                 putExtra("DataDesc", brandItemsList[position].description)
                 putExtra("DataImage", brandItemsList[position].iconUrl)
             }
