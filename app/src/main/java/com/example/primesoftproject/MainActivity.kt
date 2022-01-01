@@ -28,19 +28,32 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
 
 
-    lateinit var bottomNav: BottomNavigationView
-    lateinit var recyclerView: RecyclerView
+    val bottomNav: BottomNavigationView by lazy { findViewById(R.id.bottomNavigationView) }
+    val recyclerView: RecyclerView by lazy { findViewById(R.id.recyclerview) }
     lateinit var recyclerAdapter: RecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        recyclerView = findViewById(R.id.recyclerview)
         recyclerAdapter = RecyclerAdapter(this)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = recyclerAdapter
 
+        bottomNav.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                //R.id.menu_list_button-> {onBackPressed()}
+                R.id.menu_brand_button -> {
+                    val intentBrand = Intent(this@MainActivity, BrandsActivity::class.java)
+                    startActivity(intentBrand)
+                }
+            }
+            return@setOnNavigationItemSelectedListener true
+        }
+        loadBrands()
+    }
+
+    private fun loadBrands() {
         val apiInterface = ApiInterface.create().getBrandData("en")
 
         apiInterface.enqueue(object : Callback<JsonMainCreated> {
@@ -48,29 +61,19 @@ class MainActivity : AppCompatActivity() {
                 call: Call<JsonMainCreated>?,
                 response: Response<JsonMainCreated>?
             ) {
-                Log.d("TAGG", "Success")
+                Log.d(TAG, "Success")
                 if (response?.body() != null) {
                     val data = response.body()?.result?.data?.items?.toMutableList()!!
                     recyclerAdapter.setListItemsForRecyclerAdapter(data)
                 }
-                Log.d("TAGG", "Success but null?! " + response?.body().toString())
+                Log.d(TAG, "Success but null?! " + response?.body().toString())
             }
 
             override fun onFailure(call: Call<JsonMainCreated>?, t: Throwable?) {
-                Log.d("TAGG", "Failure " + t.toString())
+                Log.d(TAG, "Failure " + t.toString())
             }
         })
-
-/*        bottomNav.setOnNavigationItemSelectedListener {
-            when(it.itemId){
-                 //R.id.menu_list_button-> {onBackPressed()}
-                R.id.menu_brand_button->{val intentBrand = Intent(this@MainActivity,BrandsActivity::class.java)
-                    startActivity(intentBrand) }
-            }
-            return@setOnNavigationItemSelectedListener true
-        }*/
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
@@ -87,5 +90,9 @@ class MainActivity : AppCompatActivity() {
             }
         })
         return super.onCreateOptionsMenu(menu)
+    }
+
+    companion object {
+        private val TAG = MainActivity::class.java.simpleName
     }
 }

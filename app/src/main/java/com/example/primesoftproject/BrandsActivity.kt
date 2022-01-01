@@ -29,8 +29,10 @@ class BrandsActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = recyclerAdapter
 
-        val apiInterface = ApiInterface.create().getBrandData("en")
+    }
 
+    private fun getBrands() {
+        val apiInterface = ApiInterface.create().getBrandData("en")
         apiInterface.enqueue( object : Callback<JsonMainCreated> {
             override fun onResponse(call: Call<JsonMainCreated>?, response: Response<JsonMainCreated>?) {
                 Log.d("TAGG", "Success")
@@ -44,6 +46,5 @@ class BrandsActivity : AppCompatActivity() {
                 Log.d("TAGG", "Failure "+t.toString())
             }
         })
-
     }
 }
