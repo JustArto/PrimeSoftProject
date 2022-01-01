@@ -27,9 +27,8 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var data: MutableList<Item>
-    lateinit var changedData: MutableList<Item>
-    lateinit var bottomNav:BottomNavigationView
+
+    lateinit var bottomNav: BottomNavigationView
     lateinit var recyclerView: RecyclerView
     lateinit var recyclerAdapter: RecyclerAdapter
 
@@ -44,17 +43,21 @@ class MainActivity : AppCompatActivity() {
 
         val apiInterface = ApiInterface.create().getBrandData("en")
 
-        apiInterface.enqueue( object : Callback<JsonMainCreated> {
-            override fun onResponse(call: Call<JsonMainCreated>?, response: Response<JsonMainCreated>?) {
+        apiInterface.enqueue(object : Callback<JsonMainCreated> {
+            override fun onResponse(
+                call: Call<JsonMainCreated>?,
+                response: Response<JsonMainCreated>?
+            ) {
                 Log.d("TAGG", "Success")
-                if(response?.body() != null)
-                    data = response.body()?.result?.data?.items as MutableList<Item>
+                if (response?.body() != null) {
+                    val data = response.body()?.result?.data?.items?.toMutableList()!!
                     recyclerAdapter.setListItemsForRecyclerAdapter(data)
-                Log.d("TAGG", "Success but null?! "+response?.body().toString())
+                }
+                Log.d("TAGG", "Success but null?! " + response?.body().toString())
             }
 
             override fun onFailure(call: Call<JsonMainCreated>?, t: Throwable?) {
-                Log.d("TAGG", "Failure "+t.toString())
+                Log.d("TAGG", "Failure " + t.toString())
             }
         })
 
@@ -70,32 +73,16 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_menu,menu)
+        menuInflater.inflate(R.menu.main_menu, menu)
         val item = menu?.findItem(R.id.menu_search)
         val searchView = item?.actionView as androidx.appcompat.widget.SearchView
-        searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener{
+        searchView.setOnQueryTextListener(object :
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
 
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                TODO("Not yet implemented")
-            }
+            override fun onQueryTextSubmit(query: String): Boolean = false
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                changedData = data
-                data.clear()
-                val searchText = newText!!.toLowerCase(Locale.getDefault())
-                if (searchText.isNotEmpty()){
-                    changedData.forEach {
-                        if (it.name.toLowerCase(Locale.getDefault()).contains(searchText)){
-                            data.add(it)
-                            recyclerAdapter.setListItemsForRecyclerAdapter(data)
-                        }
-                    }
-                    recyclerView.adapter!!.notifyDataSetChanged()
-                }else{
-                    data.clear()
-                    data.addAll(changedData)
-                    recyclerView.adapter!!.notifyDataSetChanged()
-                }
+            override fun onQueryTextChange(newText: String): Boolean {
+                recyclerAdapter.filterDataBySearch(newText.trim())
                 return false
             }
         })
