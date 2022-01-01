@@ -61,7 +61,6 @@ class RecyclerAdapter(val context: Context) : RecyclerView.Adapter<RecyclerAdapt
         notifyDataSetChanged()
     }
 
-
     class MyViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
         val tvMovieName: TextView = itemView!!.findViewById(R.id.title)
         val image: ImageView = itemView!!.findViewById(R.id.image)

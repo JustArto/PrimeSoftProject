@@ -29,11 +29,9 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var data: MutableList<Item>
     lateinit var changedData: MutableList<Item>
-    lateinit var bottomNavigationView:BottomNavigationView
+    lateinit var bottomNav:BottomNavigationView
     lateinit var recyclerView: RecyclerView
     lateinit var recyclerAdapter: RecyclerAdapter
-    lateinit var button: Button
-    //lateinit var brandItemViewModel: BrandItemViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,19 +41,6 @@ class MainActivity : AppCompatActivity() {
         recyclerAdapter = RecyclerAdapter(this)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = recyclerAdapter
-
-   /*     val addFragment = AddFragment()
-
-        bottomNavigationView.setOnNavigationItemSelectedListener {
-            when(it.itemId){
-                R.id.menu_list_button->val intent = Intent(this@MainActivity,BrandsActivity::class.java)
-                startActivity(intent)
-
-                R.id.menu_brand_button-> val intent = Intent(this@MainActivity,BrandsActivity::class.java)
-            }
-            true
-        }
-*/
 
         val apiInterface = ApiInterface.create().getBrandData("en")
 
@@ -73,7 +58,16 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+/*        bottomNav.setOnNavigationItemSelectedListener {
+            when(it.itemId){
+                 //R.id.menu_list_button-> {onBackPressed()}
+                R.id.menu_brand_button->{val intentBrand = Intent(this@MainActivity,BrandsActivity::class.java)
+                    startActivity(intentBrand) }
+            }
+            return@setOnNavigationItemSelectedListener true
+        }*/
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu,menu)
