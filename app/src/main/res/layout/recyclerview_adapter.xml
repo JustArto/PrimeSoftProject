@@ -29,9 +29,10 @@
         android:paddingRight="15dp"
         android:textColor="#CD0000"
         android:textSize="14sp"
+        android:gravity="center"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp"
-        tools:text="Hello" />
+        tools:text="Text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
